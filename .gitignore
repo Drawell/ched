@@ -21,3 +21,20 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#python
+__pycache__/
+*.py[cod]
+*$py.class
+ched_api/.idea/
+
+# Environments
+ched_api/.env
+ched_api/.venv
+ched_api/env/
+ched_api/venv/
+ched_api/ENV/
+ched_api/env.bak/
+ched_api/venv.bak/
+
+

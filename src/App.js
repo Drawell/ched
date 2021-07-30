@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useEffect, useState } from 'react'
+import LoginPage from './authentication/LoginPage'
+import { initToken } from './requests/TokenizedHttpMethods'
+import MainContainer from './container/MainContainer'
+
+const storageName = 'tokenData'
 
 function App() {
+  const [token, setToken] = useState(null)
+  const [error, setError] = useState('')
+
+  const logout = useCallback((message) => {
+    setError(message)
+    setToken(null)
+    localStorage.removeItem(storageName)
+  }, [])
+
+  const login = useCallback(
+    (token_) => {
+      if (token_) {
+        setToken(token_)
+        initToken(token_, logout)
+        localStorage.setItem(storageName, token_)
+      }
+    },
+    [logout]
+  )
+
+  useEffect(() => {
+    const token_ = localStorage.getItem(storageName)
+    if (token_) {
+      login(token_)
+    }
+  }, [login])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {token ? (
+        <MainContainer onLogout={logout} />
+      ) : (
+        <LoginPage onLogin={login} errorMessage={error} />
+      )}
+    </>
+  )
 }
 
-export default App;
+export default App
