@@ -28,6 +28,11 @@ __pycache__/
 *$py.class
 ched_api/.idea/
 
+#images and db
+ched_api/images/
+*.db
+
+
 # Environments
 ched_api/.env
 ched_api/.venv
